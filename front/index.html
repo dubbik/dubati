@@ -1,0 +1,88 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+	<head>	
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+		<style>
+			body, html {
+				height: 100%;
+				margin: 0;
+			}
+			.bg {
+				background-image: url(https://newevolutiondesigns.com/images/freebies/black-white-background-3.jpg);
+   				height: 100%;
+				background-position: center;
+				background-repeat: no-repeat;					
+				background-size: cover;
+			}
+			#jumbo {
+				background: rgb(105, 105, 105);
+				background: rgba(105, 105, 105, 0.3);
+			}
+			#input {
+				background: rgb(255, 255, 255);
+				background: rgba(255, 255, 255, 0.8);
+				text-align: center;
+			}
+			#errorPar {
+				position: absolute;
+   				z-index: 1000;
+			}
+		</style>
+	</head>
+	<body>
+		<script>
+		
+			//filter numbers only
+			function onlyNumbers(evt) {
+				var e = event || evt;
+				var charCode = e.which || e.keyCode;
+				return !(charCode > 31 && (charCode <48 || charCode > 57));
+			}
+			
+			//get request
+			$(document).ready(function(){
+				$("#input").keyup(function(){
+					if ($("#input").val() !== ""){
+						var link = "https://dubati.dubrov.ski/api?number="+$("#input").val();
+						$.get(link, function(){})
+						.done (function(data){
+							$("#test").html(data.answer);
+						})
+						.fail (function(xhr, status){
+							if (xhr.status == "" || xhr.status > 400){
+								$("#test").html("Server down...");
+							} else {
+								$("#test").html("");
+								$("<div></div>", {class: "alert alert-danger text-center collapse"}).appendTo("#errorPar").html("<strong>Error! </strong>Parameter is NaN!").fadeTo(500, 0.9).delay(5000).fadeOut(500);
+							}
+						});		
+					} else {
+						$("#test").html("");
+					}		
+				});
+			});
+		</script>
+		<div class="row justify-content-end">
+				<div id="errorPar" class="col-3"></div>	
+		</div>
+		<div class="bg text-center">
+			<div class = "jumbotron text-center", id = "jumbo">
+				<h1>Dubik's Artificial Technologies Inc</h1>
+				<p>Welcome to the hyper-advanced web app!</p>
+  			</div>
+			<div class="form-group">
+				<div class="row justify-content-center">
+					<input id="input" class="form-control form-control-lg col-3" placeholder="Give me a number" onkeypress="return onlyNumbers();">
+				</div>
+				<div class="row justify-content-center">
+					<h1 id="test" class = "text-white"></h1>
+				</div>	
+			</div>
+		</div>
+	</body>
+</html>
