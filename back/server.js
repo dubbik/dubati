@@ -7,6 +7,18 @@ const cors = require('cors');
 
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(cors());
+app.use(express.json());
+
+app.get('/', (req, res) => {
+	return res.status(200).send({'message': 'This is the main script'});});
+
+const Reflection = require('./src/controllers/Reflections');
+
+app.post('api/v1/reflections', Reflection.create);
+app.get('api/v1/reflections', Reflection.getAll);
+app.get('api/v1/reflections', Reflection.getOne);
+app.put('api/v1/reflections', Reflection.update);
+app.delete('api/v1/reflections', Reflection.delete);
 
 app.get('/api/', (request, response) => {
     var number = request.query.number;
