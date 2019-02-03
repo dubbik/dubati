@@ -1,88 +1,103 @@
-<!DOCTYPE <!DOCTYPE html>
-<html>
+<!DOCTYPE html>
+<html lang="en">
 	<head>	
 		<meta charset="utf-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"></script>
-		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
-		<style>
-			body, html {
-				height: 100%;
-				margin: 0;
-			}
-			.bg {
-				background-image: url(https://newevolutiondesigns.com/images/freebies/black-white-background-3.jpg);
-   				height: 100%;
-				background-position: center;
-				background-repeat: no-repeat;					
-				background-size: cover;
-			}
-			#jumbo {
-				background: rgb(105, 105, 105);
-				background: rgba(105, 105, 105, 0.3);
-			}
-			#input {
-				background: rgb(255, 255, 255);
-				background: rgba(255, 255, 255, 0.8);
-				text-align: center;
-			}
-			#errorPar {
-				position: absolute;
-   				z-index: 1000;
-			}
-		</style>
+		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+		<script src="https://dubati.dubrov.ski/chat.js"></script>
+		<script src="https://dubati.dubrov.ski/fizz.js"></script>
+
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css">
+		<link rel="stylesheet" href="https://dubati.dubrov.ski/styles.css">
 	</head>
-	<body>
+	<body scroll="no">
 		<script>
-		
-			//filter numbers only
-			function onlyNumbers(evt) {
-				var e = event || evt;
-				var charCode = e.which || e.keyCode;
-				return !(charCode > 31 && (charCode <48 || charCode > 57));
-			}
-			
-			//get request
 			$(document).ready(function(){
-				$("#input").keyup(function(){
-					if ($("#input").val() !== ""){
-						var link = "https://dubati.dubrov.ski/api?number="+$("#input").val();
-						$.get(link, function(){})
-						.done (function(data){
-							$("#test").html(data.answer);
-						})
-						.fail (function(xhr, status){
-							if (xhr.status == "" || xhr.status > 400){
-								$("#test").html("Server down...");
-							} else {
-								$("#test").html("");
-								$("<div></div>", {class: "alert alert-danger text-center collapse"}).appendTo("#errorPar").html("<strong>Error! </strong>Parameter is NaN!").fadeTo(500, 0.9).delay(5000).fadeOut(500);
-							}
-						});		
-					} else {
-						$("#test").html("");
-					}		
+				fizzFunc();
+				chatFunc();				
+				//Navigation bar:
+				$("#navFizz").click(function(){
+					$(".page").fadeOut(500);
+					$("#page1").delay(500).fadeTo(500, 1);
+				});
+				$("#navChat").click(function(){
+					$(".page").fadeOut(500);
+					$("#page2").delay(500).fadeTo(500, 1);
+					$("#page2part1").show();
+					$("#page2part2").hide();
+					//$("#loginChat").focus(); 
+				});
+				$('.navbar-nav>li>a').on('click', function(){
+    				$('.navbar-collapse').collapse('hide');
 				});
 			});
 		</script>
-		<div class="row justify-content-end">
-				<div id="errorPar" class="col-3"></div>	
+
+		<!-- Error messages -->
+		<div class="row">
+			<div id="errorPar" class="col-sm-3 col-xs-12"></div>	
 		</div>
-		<div class="bg text-center">
-			<div class = "jumbotron text-center", id = "jumbo">
-				<h1>Dubik's Artificial Technologies Inc</h1>
-				<p>Welcome to the hyper-advanced web app!</p>
+
+		<div class="bg text-center"></div>
+		
+		<div>
+		<nav class="navbar navbar-toggleable-xs navbar-expand-sm bg-light navbar-light">
+			<div class="container">
+				<button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    				<span class="navbar-toggler-icon"></span>
+  				</button>
+  				<a class="navbar-brand" href="#">DUBATI</a>
+  				<div class="collapse navbar-collapse" id="navbarNav">
+  					<ul class="navbar-nav">
+    					<li class="nav-item">
+      						<a class="nav-link" href="#" id="navFizz">Fizz</a>
+    					</li>
+    					<li class="nav-item">
+      						<a class="nav-link" href="#" id="navChat">Chat</a>
+    					</li>
+  					</ul>
+  				</div>
   			</div>
-			<div class="form-group">
-				<div class="row justify-content-center">
-					<input id="input" class="form-control form-control-lg col-3" placeholder="Give me a number" onkeypress="return onlyNumbers();">
+		</nav>
+		<!-- FizzBuzz page -->	
+		<div id="page1" class="container-fluid page" style="height:100%; display: none">
+			<div class="row justify-content-center">
+				<div class="col-auto" style="margin-top: 100px; padding: 0">
+					<input id="input" class="form-control form-control-lg" maxlength="10" placeholder="Give me a number" onkeypress="return onlyNumbers();">
 				</div>
-				<div class="row justify-content-center">
-					<h1 id="test" class = "text-white"></h1>
-				</div>	
+			</div><br />
+			<div class="row justify-content-center">
+				<h1 id="test" class = "text-white"></h1>	
 			</div>
 		</div>
+
+		<!-- Chat page -->	
+		<div id="page2" class="container-fluid page" style="height:100%; display:none">
+		<!-- Chat Login -->
+			<div id="page2part1" style="margin:10px">
+				<div class="row justify-content-center">
+					<div class="col-auto" style="margin-top: 100px; padding: 0">
+						<div class="input-group">
+							<input id="loginChat" class="form-control form-control-lg" placeholder="Your name?" maxlength="15">
+							<div class="input-group-append">
+    							<button id="okChat" class="btn btn-secondary">OK</button> 
+  							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		<!-- Chat -->
+			<div id="page2part2">
+				<div id="chatBody" class="col-xs-12 col-sm-8 col-sm-offset-2" style="min-height:475px">
+					<div id="textOutput"></div>
+					<input id="textInput" maxlength="300" placeholder="Type your message...">
+						<button id="sendBtn">SEND</button>
+					</input>
+				</div>
+			</div>
+		</div>	  			
 	</body>
 </html>
