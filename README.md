@@ -1,2 +1,0 @@
-# dubati
-I R baboon
